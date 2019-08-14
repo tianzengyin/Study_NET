@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/StaticWeb01/StaticWeb01.iml" filepath="$PROJECT_DIR$/StaticWeb01/StaticWeb01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Study_Annotation/Study_Annotation.iml" filepath="$PROJECT_DIR$/Study_Annotation/Study_Annotation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Study_Base_Class/Study_Base_Class.iml" filepath="$PROJECT_DIR$/Study_Base_Class/Study_Base_Class.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Study_Collection/Study_Collection.iml" filepath="$PROJECT_DIR$/Study_Collection/Study_Collection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Study_DataStructureAndAlgorithm/Study_DataStructureAndAlgorithm.iml" filepath="$PROJECT_DIR$/Study_DataStructureAndAlgorithm/Study_DataStructureAndAlgorithm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Study_Exception/Study_Exception.iml" filepath="$PROJECT_DIR$/Study_Exception/Study_Exception.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Study_IO/Study_IO.iml" filepath="$PROJECT_DIR$/Study_IO/Study_IO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Study_Mode/Study_Mode.iml" filepath="$PROJECT_DIR$/Study_Mode/Study_Mode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Study_NET/Study_NET.iml" filepath="$PROJECT_DIR$/Study_NET/Study_NET.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Study_Reflect/Study_Reflect.iml" filepath="$PROJECT_DIR$/Study_Reflect/Study_Reflect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Study_String/Study_String.iml" filepath="$PROJECT_DIR$/Study_String/Study_String.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Study_Thread/Study_Thread.iml" filepath="$PROJECT_DIR$/Study_Thread/Study_Thread.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WebProject/WebProject.iml" filepath="$PROJECT_DIR$/WebProject/WebProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/helloidea.iml" filepath="$PROJECT_DIR$/helloidea.iml" />
+    </modules>
+  </component>
+</project>
