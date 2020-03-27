@@ -8,9 +8,9 @@ public class DateTest01 {
 	public static void main(String[] args) {
 		Date d = new Date();
 		System.out.println(d);
-		//½«Ä£Ê½·â×°µ½SimpleDateFormat¶ÔÏóÖĞ
-		//µ÷ÓÃformat·½·¨ÈÃÄ£Ê½¸ñÊ½»¯Ö¸¶¨Data¶ÔÏó
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyÄêMMÔÂddÈÕ");
+		//å°†æ¨¡å¼å°è£…åˆ°SimpleDateFormatå¯¹è±¡ä¸­
+		//è°ƒç”¨formatæ–¹æ³•è®©æ¨¡å¼æ ¼å¼åŒ–æŒ‡å®šDataå¯¹è±¡
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyå¹´MMæœˆddæ—¥");
 		System.out.println(sdf.format(d));
 	}
 
