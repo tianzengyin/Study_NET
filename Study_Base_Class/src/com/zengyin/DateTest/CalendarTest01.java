@@ -18,27 +18,27 @@ public class CalendarTest01 {
 	}
 
 	public static void printCalendar(Calendar c) {
-		/*sop(c.get(Calendar.YEAR)+"Äê"+
-		   (c.get(Calendar.MONTH)+1)+"ÔÂ"+
-		    c.get(Calendar.DAY_OF_MONTH)+"ÈÕ");*/
-		String[] mons = {"Ò»ÔÂ","¶şÔÂ","ÈıÔÂ","ËÄÔÂ","ÎåÔÂ","ÁùÔÂ",
-				         "ÆßÔÂ","°ËÔÂ","¾ÅÔÂ","Ê®ÔÂ","Ê®Ò»ÔÂ","Ê®¶şÔÂ"};
+		/*sop(c.get(Calendar.YEAR)+"å¹´"+
+		   (c.get(Calendar.MONTH)+1)+"æœˆ"+
+		    c.get(Calendar.DAY_OF_MONTH)+"æ—¥");*/
+		String[] mons = {"ä¸€æœˆ","äºŒæœˆ","ä¸‰æœˆ","å››æœˆ","äº”æœˆ","å…­æœˆ",
+				         "ä¸ƒæœˆ","å…«æœˆ","ä¹æœˆ","åæœˆ","åä¸€æœˆ","åäºŒæœˆ"};
 		int num = c.get(Calendar.MARCH);
-		String[] weeks = {/*"",*/"ĞÇÆÚÈÕ","ĞÇÆÚÒ»","ĞÇÆÚ¶ş","ĞÇÆÚÈı","ĞÇÆÚËÄ","ĞÇÆÚÎå","ĞÇÆÚÁù"};
-		sop(c.get(Calendar.YEAR)+"Äê");
+		String[] weeks = {/*"",*/"æ˜ŸæœŸæ—¥","æ˜ŸæœŸä¸€","æ˜ŸæœŸäºŒ","æ˜ŸæœŸä¸‰","æ˜ŸæœŸå››","æ˜ŸæœŸäº”","æ˜ŸæœŸå…­"};
+		sop(c.get(Calendar.YEAR)+"å¹´");
 		sop((mons[num]));
 		int num2 = c.get(Calendar.DAY_OF_WEEK)-1;
 		sop(weeks[num2]);
 	}
 
 	public static void test01() {
-		//´´½¨Ò»¸öÄ¬ÈÏµÄCalendar¶ÔÏó
+		//åˆ›å»ºä¸€ä¸ªé»˜è®¤çš„Calendarå¯¹è±¡
 		Calendar c = Calendar.getInstance();
-		//´ÓCalendar¶ÔÏóÖĞÈ¡³öDate¶ÔÏó
+		//ä»Calendarå¯¹è±¡ä¸­å–å‡ºDateå¯¹è±¡
 		Date d = c.getTime();
-		//Í¨¹ıDate¶ÔÏó»ñµÃ¶ÔÓ¦µÄCalendar¶ÔÏó
-		//ÒòÎªCalendar/gregorianCalendarÃ»ÓĞ¹¹Ôìº¯Êı¿ÉÒÔ½ÓÊÕDate¶ÔÏó
-		//ËùÒÔ±ØĞëÏÈ»ñµÃÒ»¸öCalendarÊµÀı,È»ºóµ÷ÓÃÆäsetTime()·½·¨
+		//é€šè¿‡Dateå¯¹è±¡è·å¾—å¯¹åº”çš„Calendarå¯¹è±¡
+		//å› ä¸ºCalendar/gregorianCalendaræ²¡æœ‰æ„é€ å‡½æ•°å¯ä»¥æ¥æ”¶Dateå¯¹è±¡
+		//æ‰€ä»¥å¿…é¡»å…ˆè·å¾—ä¸€ä¸ªCalendarå®ä¾‹,ç„¶åè°ƒç”¨å…¶setTime()æ–¹æ³•
 		Calendar c1 = Calendar.getInstance();
 		c1.setTime(d);
 	}

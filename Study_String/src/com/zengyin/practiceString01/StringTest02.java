@@ -2,8 +2,8 @@ package com.zengyin.practiceString01;
 
 public class StringTest02 {
 	/**
-	 * Á·Ï°Ò»:È¥³ı×Ö·û´®Á½¶Ë¿Õ¸ñ
-	 * ÊµÏÖtrim·½·¨
+	 * ç»ƒä¹ ä¸€:å»é™¤å­—ç¬¦ä¸²ä¸¤ç«¯ç©ºæ ¼
+	 * å®ç°trimæ–¹æ³•
 	 * */
 	public static String myTrim(String str){
 		/*int pos = 0;
@@ -13,7 +13,7 @@ public class StringTest02 {
 		while(str.charAt(x)== ' ')
 		x--;
 		return str.substring(pos, x);*/
-		//ÓÅ»¯´úÂë:
+		//ä¼˜åŒ–ä»£ç :
 		int start = 0 , end = str.length()-1;
 		while(start <= end && str.charAt(start) == ' ')
 			start++;
