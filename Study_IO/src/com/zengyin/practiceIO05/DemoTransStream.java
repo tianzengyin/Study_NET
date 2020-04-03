@@ -5,11 +5,11 @@ import java.io.*;
 
 public class DemoTransStream {
 	public static void main(String[] args) throws IOException{
-		//»ñÈ¡¼üÅÌÂ¼Èë¶ÔÏó
+		//è·å–é”®ç›˜å½•å…¥å¯¹è±¡
 		InputStream in = System.in;
-		//½«×Ö½ÚÁ÷¶ÔÏó×ª»»³É×Ö·ûÁ÷¶ÔÏó,Ê¹ÓÃ×ª»»Á÷,InputStreamReader
+		//å°†å­—èŠ‚æµå¯¹è±¡è½¬æ¢æˆå­—ç¬¦æµå¯¹è±¡,ä½¿ç”¨è½¬æ¢æµ,InputStreamReader
 		InputStreamReader isr = new InputStreamReader(in);
-		//ÎªÁËÌá¸ßĞ§ÂÊ,½«×Ö·û´®½øĞĞ»º³åÇø¼¼Êõ¸ßĞ§²Ù×÷,Ê¹ÓÃBufferedreader
+		//ä¸ºäº†æé«˜æ•ˆç‡,å°†å­—ç¬¦ä¸²è¿›è¡Œç¼“å†²åŒºæŠ€æœ¯é«˜æ•ˆæ“ä½œ,ä½¿ç”¨Bufferedreader
 		BufferedReader bufr = new BufferedReader(isr);
 		String line = null;
 		while((line = bufr.readLine())!= null){

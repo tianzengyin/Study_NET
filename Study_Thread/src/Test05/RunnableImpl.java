@@ -19,7 +19,7 @@ public class RunnableImpl implements Runnable{
 			l.lock();
 			if(ticket>0){
 				try {
-					Thread.sleep(10);
+					Thread.sleep(100);
 					System.out.println(Thread.currentThread().getName()+"正在卖第"+ticket+"张票" );
 					ticket--;
 				} catch (InterruptedException e) {
