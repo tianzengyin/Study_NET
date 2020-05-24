@@ -1,0 +1,276 @@
+线程的基本概念：
+	进程
+	线程
+	
+	
+	线程归属于进程 一个进程当中至少包含一个线程 
+	
+	串行： 
+	并行
+
+	
+	1. 提高程序的运行效率
+	2. 让程序同时去做多件事情
+创建线程的方式：
+	Thread: 线程的实现类
+		
+		继承Thread  run
+		
+		实现Runnable接口 
+		
+		实现Callable接口
+
+线程的状态和生命周期：
+	线程的状态：
+		NEW        新建
+		RUNNABLE   可运行
+		BLOCKED     阻塞
+		WAITING      等待阻塞
+		TIMED_WAITING  等待阻塞
+		TERMINATED     终止
+	
+	线程的生命周期：
+		
+		
+		
+线程的调度
+	单核单线程：  我们的CPU只有一个工作内核，可以同时执行一个线程
+	
+	JVM的线程调度机制： 
+		抢占式线程调度机制
+		协调式的线程调度机制
+		
+		抢占式线程调度机制：
+
+多线程要注意的问题：
+	1. 线程安全问题
+	2. 线程的性能
+		   创建线程和维护线程都需要消耗系统资源
+		   线程间的上下文切换也消耗时间
+		 
+JDK1.5  java.util.concurrent  线程池的框架 
+
+线程池的作用分析：
+	通过创建固定数量的线程来执行大量的任务
+	这样可以很好的复用线程， 减少线程的创建和维护的时间消耗
+	
+线程池的体系结构：
+java.util.concurrent.Executor   线程池的顶级接口定义了线程池的最基本方法
+	java.util.concurrent.ExecutorService    定义常用方法
+		java.util.concurrent.ThreadPoolExecutor   线程池的核心实现类
+			java.util.concurrent.ScheduledThreadPoolExecutor  
+java.util.concurrent.Executors  线程池的工具类 			
+	
+// 创建线程池
+ExecutorService es = new ThreadPoolExecutor();
+// 执行任务
+es.execute (任务)
+	
+线程池各个参数的作用：
+ public ThreadPoolExecutor(int corePoolSize, // 核心工作线程的数量
+							// 线程池创建几个固定的线程来执行任务
+                           int maximumPoolSize, // 最大的工作线程数量
+						    // 当任务队列满了的时候，会创建(最大线程-核心线程数量)临时线程来帮我们处理任务
+                           long keepAliveTime,   // 保持时间 
+								// 临时线程执行完任务后，会主动去任务队列里获取任务  如果经过 keepAliveTime 没有获取到，临时线程销毁
+
+								// 核心线程默认不超时 
+                              TimeUnit unit, // 时间的单位
+                              BlockingQueue<Runnable> workQueue, //存放任务  阻塞队列 （先入先出  线程安全  存取的阻塞方法）
+											// ArrayBlockingQueue 基于数组的有界的阻塞队列
+											// LinkedBlockingQueue 基于数组的无界的阻塞队列
+                              ThreadFactory threadFactory, // 线程工厂 
+                              RejectedExecutionHandler handler) // 拒绝策略 / 饱和策略
+								    AbortPolicy （默认） 丢弃任务， 并且抛出异常
+									
+									CallerRunsPolicy  不抛弃任务，让调用线程池的线程帮忙执行任务
+									
+									DiscardPolicy   丢弃任务，不抛出异常
+									
+									DiscardOldestPolicy 丢弃任务，不抛出异常,抛弃任务队列最早加入的任务 
+									
+									
+线程池的执行流程：
+	流程1   判断核心线程数
+		
+	流程2   判断任务能否加入到任务队列
+	
+	流程3   判断最大线程数量
+	
+	流程4   根据线程池的拒绝策略处理任务
+	
+	
+// 思考： 
+
+	// 临时线程  
+	// 核心线程 
+	
+	// 等待任务队列所有的任务执行完毕后才关闭
+	executor.shutdown();
+	// 立刻关闭线程池 
+	 executor.shutdownNow();
+
+	
+从源码的角度深入理解线程池的工作原理
+	线程池中的Worker源码分析
+	
+	// 存放工作线程 worker的set集合  
+	private final HashSet<Worker> workers = new HashSet<Worker>();
+	
+	
+	// Worker工作者 代表一个工作线程
+	// Worker 是线程池的内部类， 它实现了Runnable接口 
+	private final class Worker
+        extends AbstractQueuedSynchronizer
+        implements Runnable
+		// Worker中的两个重要属性
+		final Thread thread;// 工作线程
+        Runnable firstTask;// 第一次要执行的任务
+		
+		// Worker中的构造器
+		Worker(Runnable firstTask) {
+            setState(-1); 
+            this.firstTask = firstTask;// 创建worker时，传入第一次要运行的任务
+            this.thread = getThreadFactory().newThread(this);// 通过线程工厂的newThread方法创建线程，并传入参数this
+        }
+		
+		// 在线程池工厂中， new了一个线程 ，把worker对象作为任务，传入
+		public Thread newThread(Runnable r) {
+            Thread t = new Thread(group, r,
+                                  namePrefix + threadNumber.getAndIncrement(),
+                                  0);
+            return t;
+        }
+		
+		// 也就是说如果线程启动.start(),那么worker类的run方法会被执行
+		// worker的run方法中直接调用了 runWorker(this); this代表worker对象
+		final void runWorker(Worker w) {
+			Thread wt = Thread.currentThread();
+			// 第一次要执行的任务
+			Runnable task = w.firstTask;
+			...
+			try {
+				// 任务执行完毕后，会获取新的任务
+				while (task != null || (task = getTask()) != null) {
+					w.lock();
+					...
+					try {
+						...
+						try {
+							// 执行任务
+							task.run();
+						}
+						...
+					} finally {
+						// 清空已经执行完的任务
+						task = null;
+						w.completedTasks++;
+						w.unlock();
+					}
+				}
+				completedAbruptly = false;
+			} finally {
+				processWorkerExit(w, completedAbruptly);
+			}
+		}
+		// Worker线程启动后，会不断的使用getTask()方法获取任务执行
+		private Runnable getTask() {
+			boolean timedOut = false; // Did the last poll() time out?
+
+			for (;;) {
+					
+				try {
+					// 在workQueue任务队列中 获取任务
+					Runnable r = timed ?
+						workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS) :
+						workQueue.take();
+					if (r != null)
+						return r;
+					timedOut = true;
+				} catch (InterruptedException retry) {
+					timedOut = false;
+				}
+			}
+		}
+	
+	
+	线程池的execute执行方法分析：
+			   // 执行任务      任务
+		 public void execute(Runnable command) {
+				if (command == null)
+					throw new NullPointerException();
+				// AtomicInteger ctl 是一个integer的原子类对象 
+				// 主要作用: 1.记录线程池的状态信息  2.记录线程池工作线程的数量
+				int c = ctl.get();
+				
+				// workerCountOf(c) : 工作线程的数量
+				// isRunning(c): 线程池是否运行状态
+				
+				// 流程1: 工作线程的数量如果小于 核心线程的数量
+				if (workerCountOf(c) < corePoolSize) {
+						// 添加一个worker, 参数1：要执行的任务   参数2: true代表添加核心线程
+					if (addWorker(command, true))
+						return;
+					c = ctl.get();
+				}
+				// 流程2: 尝试向任务队列workQueue中添加一个任务
+				if (isRunning(c) && workQueue.offer(command)) {
+					// 添加成功，在检查一次线程池状态
+					int recheck = ctl.get();
+					if (! isRunning(recheck) && remove(command))
+						reject(command);
+					else if (workerCountOf(recheck) == 0)
+						addWorker(null, false);
+				}
+				// 流程3: 添加一个worker, 参数1: 要执行的任务  参数2:false代表添加临时线程
+				else if (!addWorker(command, false))
+					// 流程4: 线程池已饱和无法在创建新的worker,执行饱和策略
+					reject(command);
+			}
+		
+		查看addWorker方法是如何创建worker的?
+		private boolean addWorker(Runnable firstTask, boolean core) {
+			retry:
+			for (;;) {
+				
+				...
+					int wc = workerCountOf(c);
+					if (
+						// core=true 判断是否大于等于 corePoolSize
+						// core=false 判断是否大于等于 maximumPoolSize
+						wc >= (core ? corePoolSize : maximumPoolSize))
+						return false;
+				...
+			}
+			
+			Worker w = null;
+			try {
+				// 通过构造器得到worker对象
+				w = new Worker(firstTask);
+				final Thread t = w.thread;
+				if (t != null) {
+					final ReentrantLock mainLock = this.mainLock;
+					mainLock.lock();
+					try {
+							// 将worker对象添加到workers集合中
+							workers.add(w);
+							...
+						}
+					} finally {
+						mainLock.unlock();
+					}
+					// 如果添加worker成功
+					if (workerAdded) {
+						// 启动该worker中的线程
+						t.start();
+						workerStarted = true;
+					}
+				}
+			} finally {
+				if (! workerStarted)
+					addWorkerFailed(w);
+			}
+			return workerStarted;
+		}
+	
+	
