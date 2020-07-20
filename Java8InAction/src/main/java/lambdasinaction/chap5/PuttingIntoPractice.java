@@ -1,5 +1,7 @@
 package lambdasinaction.chap5;
 
+import org.junit.Test;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -7,6 +9,67 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 public class PuttingIntoPractice{
+    @Test
+    public void testTransaction(){
+        Trader raoul = new Trader("Raoul", "Cambridge");
+        Trader mario = new Trader("Mario","Milan");
+        Trader alan = new Trader("Alan","Cambridge");
+        Trader brian = new Trader("Brian","Cambridge");
+
+        List<Transaction> transactions = Arrays.asList(
+                new Transaction(brian, 2011, 300),
+                new Transaction(raoul, 2012, 1000),
+                new Transaction(raoul, 2011, 400),
+                new Transaction(mario, 2012, 710),
+                new Transaction(mario, 2012, 700),
+                new Transaction(alan, 2012, 950)
+        );
+        //1.找出2011年发生的所有交易，并按交易额排序（从低到高）
+        List<Transaction> lists = transactions.stream()
+                                              .filter(transaction -> transaction.getYear() == 2011)
+                                              .sorted(comparing(Transaction::getValue)/*(t1,t2)->t1.getValue()-t2.getValue()*/)
+                                              .collect(toList());
+        System.out.println(lists.toString());
+        System.out.println("----------------");
+        //2.交易员都在哪些不同的城市工作过
+        List<String> names = transactions.stream()
+                .map((transaction) -> transaction.getTrader().getCity())
+                .distinct()
+                .collect(toList());
+        System.out.println(names);
+        System.out.println("----------------");
+        //3.查找所有来自剑桥的交易员，并按姓名排序
+        List<Transaction> cambridges = transactions.stream()
+                .filter(transaction -> transaction.getTrader().getCity().equals("Cambridge"))
+                .distinct()
+                .sorted(comparing(transaction -> transaction.getTrader().getName()))
+                .collect(toList());
+        System.out.println(cambridges);
+        //4.返回所有交易员的姓名字符串，按字母顺序排序
+        List<Trader> traders = transactions.stream()
+                .map(transaction -> transaction.getTrader())
+                .collect(toList());
+        List<String> nameStrings = traders.stream()
+                .map(trader -> trader.getName())
+                .distinct()
+                .sorted(String::compareTo)
+                .collect(toList());
+        System.out.println(nameStrings);
+        List<String> nameStrings2 = transactions.stream()
+                .map(transaction -> transaction.getTrader().getName())
+                .sorted(String::compareTo)
+                .distinct()
+                .collect(toList());
+        System.out.println(nameStrings2);
+
+        //5.有没有交易员是在米兰工作的
+        boolean milan = transactions.stream()
+                .map(Transaction::getTrader)
+                .anyMatch(trader -> trader.getCity().equals("Milan"));
+        System.out.println(milan);
+
+
+    }
     public static void main(String ...args){    
         Trader raoul = new Trader("Raoul", "Cambridge");
         Trader mario = new Trader("Mario","Milan");
