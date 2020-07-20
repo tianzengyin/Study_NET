@@ -1,6 +1,7 @@
 package lambdasinaction.chap5;
 
-import lambdasinaction.chap4.*;
+import lambdasinaction.chap4.Dish;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,7 +10,32 @@ import static java.util.stream.Collectors.toList;
 import static lambdasinaction.chap4.Dish.menu;
 
 public class Mapping{
-
+    @Test
+    public void Test2(){
+        int[] arr = {1,2,2,5,10,9,8,2,1,1};
+        //IntStream stream = Arrays.stream(arr);
+        int[] newArr = Arrays.stream(arr)
+                .sorted()
+                .distinct()
+                .toArray();
+        System.out.println(Arrays.toString(newArr));//[1, 2, 5, 8, 9, 10]
+    }
+    @Test
+    public void Test1(){
+        // map
+        List<Integer> dishNamesLength = menu.stream()
+                .map(Dish::getName)
+                .map(String::length)
+                .collect(toList());
+        System.out.println(dishNamesLength);
+        System.out.println("哈哈");
+        // map
+        List<String> words = Arrays.asList("Hello", "World");
+        List<Integer> wordLengths = words.stream()
+                .map(String::length)
+                .collect(toList());
+        System.out.println(wordLengths);
+    }
     public static void main(String...args){
 
         // map
