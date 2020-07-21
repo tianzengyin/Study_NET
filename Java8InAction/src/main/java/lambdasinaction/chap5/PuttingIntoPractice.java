@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
@@ -67,8 +68,34 @@ public class PuttingIntoPractice{
                 .map(Transaction::getTrader)
                 .anyMatch(trader -> trader.getCity().equals("Milan"));
         System.out.println(milan);
-
-
+        //6.打印生活在剑桥的交易员的所有金额
+        List<Integer> amounts = transactions.stream()
+                .filter(transaction ->
+                        transaction.getTrader().getCity().equals("Cambridge")
+                ).map(Transaction::getValue)
+                .collect(toList());
+        System.out.println(amounts);
+        //6.1 打印生活在剑桥的交易员的所有金额总和
+        Integer sum = transactions.stream()
+                .filter(transaction ->
+                        transaction.getTrader().getCity().equals("Cambridge")
+                ).map(Transaction::getValue)
+                .reduce(0, Integer::sum);
+        System.out.println("sum = " + sum);
+        //7.所有交易中最高的交易金额是多少
+        Integer max = transactions.stream()
+                .map(transaction -> transaction.getValue())
+                .reduce(0, Integer::max);
+        System.out.println("max = " + max);
+        Integer max2 = transactions.stream()
+                .map(transaction -> transaction.getValue())
+                .reduce(0,(a,b)-> Integer.max(a,b ));
+        System.out.println("max = " + max2);
+        //8.找到交易额最小的交易
+        Optional<Integer> min = transactions.stream()
+                .map(transaction -> transaction.getValue())
+                .reduce(Integer::min);
+        System.out.println("min = " + min.get());
     }
     public static void main(String ...args){    
         Trader raoul = new Trader("Raoul", "Cambridge");

@@ -2,6 +2,7 @@ package lambdasinaction.chap5;
 
 
 import lambdasinaction.chap4.Dish;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +11,12 @@ import java.util.Optional;
 import static lambdasinaction.chap4.Dish.menu;
 
 public class Reducing{
-
+    @Test
+    public void testReduc(){
+        List<Integer> numbers = Arrays.asList(3,4,5,1,2);
+        int sum = numbers.stream().reduce(0, (Integer::sum));
+        System.out.println(sum);
+    }
     public static void main(String...args){
 
         List<Integer> numbers = Arrays.asList(3,4,5,1,2);
